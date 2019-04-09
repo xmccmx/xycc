@@ -1,0 +1,31 @@
+{
+  "ver": "2.2.0",
+  "uuid": "e17a4b5b-ad67-4289-96e2-532f0d0bd61c",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "subMetas": {
+    "麻将桌背景": {
+      "ver": "1.0.3",
+      "uuid": "1065c145-0534-4db7-9d91-7fad2f23f601",
+      "rawTextureUuid": "e17a4b5b-ad67-4289-96e2-532f0d0bd61c",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 518,
+      "height": 508,
+      "rawWidth": 518,
+      "rawHeight": 508,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

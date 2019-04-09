@@ -1,0 +1,31 @@
+{
+  "ver": "2.2.0",
+  "uuid": "694c04c7-cebe-419d-bac8-9b91915c5b18",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "subMetas": {
+    "活动介绍": {
+      "ver": "1.0.3",
+      "uuid": "e3ae660b-40da-412c-b5b6-ef526a30c3a4",
+      "rawTextureUuid": "694c04c7-cebe-419d-bac8-9b91915c5b18",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 139,
+      "height": 34,
+      "rawWidth": 139,
+      "rawHeight": 34,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "ver": "2.2.0",
+  "uuid": "18655fa9-4574-4f07-b990-6a4e2ce9efba",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "subMetas": {
+    "大赢家": {
+      "ver": "1.0.3",
+      "uuid": "67dd03de-0e31-4bb4-9b52-6eb632bf0a53",
+      "rawTextureUuid": "18655fa9-4574-4f07-b990-6a4e2ce9efba",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0.5,
+      "offsetY": 0.5,
+      "trimX": 1,
+      "trimY": 0,
+      "width": 133,
+      "height": 77,
+      "rawWidth": 134,
+      "rawHeight": 78,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "ver": "2.2.0",
+  "uuid": "7992c867-7522-45b4-aaf3-61f77ac34bfc",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "subMetas": {
+    "周赛2": {
+      "ver": "1.0.3",
+      "uuid": "5e54ce63-057f-4947-b6f5-ad66050c1c2c",
+      "rawTextureUuid": "7992c867-7522-45b4-aaf3-61f77ac34bfc",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": -1,
+      "trimX": 8,
+      "trimY": 2,
+      "width": 39,
+      "height": 53,
+      "rawWidth": 55,
+      "rawHeight": 55,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

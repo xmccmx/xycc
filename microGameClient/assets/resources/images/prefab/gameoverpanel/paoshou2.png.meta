@@ -1,0 +1,31 @@
+{
+  "ver": "2.2.0",
+  "uuid": "5bf21e3e-b985-49ba-b436-4eb0bd99df3c",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "subMetas": {
+    "paoshou2": {
+      "ver": "1.0.3",
+      "uuid": "7ad2d6c8-6385-4223-9380-f1203d9c9026",
+      "rawTextureUuid": "5bf21e3e-b985-49ba-b436-4eb0bd99df3c",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 1,
+      "trimY": 1,
+      "width": 144,
+      "height": 83,
+      "rawWidth": 146,
+      "rawHeight": 85,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

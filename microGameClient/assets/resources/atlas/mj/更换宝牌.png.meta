@@ -1,0 +1,31 @@
+{
+  "ver": "2.2.0",
+  "uuid": "35e90e8e-2476-44d7-b521-91e9b7fa9fe9",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "subMetas": {
+    "更换宝牌": {
+      "ver": "1.0.3",
+      "uuid": "f9fc4ca4-9cb8-4f23-924f-e70bcb5c69d3",
+      "rawTextureUuid": "35e90e8e-2476-44d7-b521-91e9b7fa9fe9",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 608,
+      "height": 213,
+      "rawWidth": 608,
+      "rawHeight": 213,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

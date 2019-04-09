@@ -1,0 +1,31 @@
+{
+  "ver": "2.2.0",
+  "uuid": "1c408d54-57cb-4c41-8a3d-94d2b4348f10",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "subMetas": {
+    "本场概况": {
+      "ver": "1.0.3",
+      "uuid": "127401ed-c757-4e18-a452-f1fddedf1d49",
+      "rawTextureUuid": "1c408d54-57cb-4c41-8a3d-94d2b4348f10",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0.5,
+      "offsetY": 0,
+      "trimX": 1,
+      "trimY": 0,
+      "width": 173,
+      "height": 34,
+      "rawWidth": 174,
+      "rawHeight": 34,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

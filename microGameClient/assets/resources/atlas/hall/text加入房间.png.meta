@@ -1,0 +1,31 @@
+{
+  "ver": "2.2.0",
+  "uuid": "deb4a2a7-238e-4716-94be-959efdc95204",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "subMetas": {
+    "text加入房间": {
+      "ver": "1.0.3",
+      "uuid": "5e940cbf-9bfe-41cb-914f-3247d24c2df8",
+      "rawTextureUuid": "deb4a2a7-238e-4716-94be-959efdc95204",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 223,
+      "height": 67,
+      "rawWidth": 223,
+      "rawHeight": 67,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

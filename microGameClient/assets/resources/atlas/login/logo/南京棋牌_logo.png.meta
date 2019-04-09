@@ -1,0 +1,31 @@
+{
+  "ver": "2.2.0",
+  "uuid": "114583a3-f5d6-4407-94d7-af3d3cc7177c",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "subMetas": {
+    "南京棋牌_logo": {
+      "ver": "1.0.3",
+      "uuid": "91e05184-f07e-43a1-9153-3894bb60dbbd",
+      "rawTextureUuid": "114583a3-f5d6-4407-94d7-af3d3cc7177c",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 1,
+      "width": 480,
+      "height": 124,
+      "rawWidth": 480,
+      "rawHeight": 126,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

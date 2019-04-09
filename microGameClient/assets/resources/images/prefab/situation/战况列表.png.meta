@@ -1,0 +1,31 @@
+{
+  "ver": "2.2.0",
+  "uuid": "d255ff94-4558-4716-b925-f9e402d251d1",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "subMetas": {
+    "战况列表": {
+      "ver": "1.0.3",
+      "uuid": "220f4928-5ca0-4acc-b8f4-932a6a74b935",
+      "rawTextureUuid": "d255ff94-4558-4716-b925-f9e402d251d1",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 792,
+      "height": 120,
+      "rawWidth": 792,
+      "rawHeight": 120,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

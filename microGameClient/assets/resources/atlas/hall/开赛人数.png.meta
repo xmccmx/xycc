@@ -1,0 +1,31 @@
+{
+  "ver": "2.2.0",
+  "uuid": "2b3fd290-d87d-494d-9e96-c0bfe682b548",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "subMetas": {
+    "开赛人数": {
+      "ver": "1.0.3",
+      "uuid": "420d6b2d-73f9-459d-b040-82458b6531e4",
+      "rawTextureUuid": "2b3fd290-d87d-494d-9e96-c0bfe682b548",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": -0.5,
+      "trimX": 0,
+      "trimY": 4,
+      "width": 30,
+      "height": 23,
+      "rawWidth": 30,
+      "rawHeight": 30,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "ver": "2.2.0",
+  "uuid": "462a2604-a8e4-4c22-b5f6-9135c12ba4ce",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "subMetas": {
+    "心缘长春比赛大厅": {
+      "ver": "1.0.3",
+      "uuid": "c2ac5813-d46c-4bf7-9c06-8274943e6425",
+      "rawTextureUuid": "462a2604-a8e4-4c22-b5f6-9135c12ba4ce",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0.5,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 374,
+      "height": 45,
+      "rawWidth": 374,
+      "rawHeight": 46,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

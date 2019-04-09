@@ -1,0 +1,31 @@
+{
+  "ver": "2.2.0",
+  "uuid": "799a023e-df7e-4e8e-bd8d-044fbbe75383",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "premultiplyAlpha": false,
+  "subMetas": {
+    "比赛大厅列表": {
+      "ver": "1.0.3",
+      "uuid": "4a561aa6-131c-48e4-bc7f-64821b7b5283",
+      "rawTextureUuid": "799a023e-df7e-4e8e-bd8d-044fbbe75383",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 1072,
+      "height": 140,
+      "rawWidth": 1072,
+      "rawHeight": 140,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
