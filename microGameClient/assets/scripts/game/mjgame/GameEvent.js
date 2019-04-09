@@ -716,12 +716,7 @@ cc.Class({
         }
     },
     huaction2: function (playerid, context) {
-        // var gameOverNode = cc.find('Canvas/js/GameOver').getComponent('GameOver');//胡动画
-        // let ani = gameOverNode.current_hu.getComponent(cc.Animation);
-        // gameOverNode.current_hu.active = false;
-        // ani.stop("current_hu");
         let player = cc.weijifen.gameStartInit.player(playerid, context);
-        // player.target.scale = 0.91;
         player.node.scale = 1;
     },
     onClick: function (event) {//action事件btn的点击事件
@@ -729,6 +724,14 @@ cc.Class({
             cc.find('Canvas/showTakeCardPanel').removeAllChildren();
         }
         this.node.dispatchEvent(new cc.Event.EventCustom(event.target.name, true));
+    },
+    //action选择界面closebtn点击事件
+    actionSelectPanelClose() {
+        let self = this;
+        cc.find('Canvas/other/actionSelectBg').active = false;
+        cc.find('Canvas/other/actionSelectBg/layout/kanSelect').removeAllChildren();
+        self.node.dispatchEvent(new cc.Event.EventCustom('guo', true));
+        cc.sys.localStorage.setItem('take', 'true');
     },
     // update (dt) {},
 });

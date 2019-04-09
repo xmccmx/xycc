@@ -271,6 +271,10 @@ cc.Class({
                             if (ids == data.agreeIds[i]) {
                                 list[j].getChildByName('no').active = false;
                                 list[j].getChildByName('ok').active = true;
+                                if (data.agreeIds[i] == cc.weijifen.user.id) {
+                                    src.true.active = false;
+                                    src.false.active = false;
+                                }
                                 break;
                             }
                         }
