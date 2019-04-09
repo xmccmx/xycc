@@ -132,17 +132,18 @@ cc.Class({
                 arr = ['current', 'top', 'right', 'left'];
             }
         } else {
+            var a;
             for (var i = 0; i < data.players.length; i++) {
                 if (data.players[i].id == cc.weijifen.user.id) {
                     if (i == 0) break;
-                    var a = array.pop();
+                    if (data.players.length == 3) a = array.pop();//只有三个玩家时南西北东、西北东南  都需要改为南西东北、西东南北
                     array.splice(0, i);
                     p_arr.splice(0, i);
                     for (var j = 0; j < i; j++) {
                         array.push(qqq[j]);
                         p_arr.push(data.players[j]);
                     }
-                    array.push(a);
+                    if (data.players.length == 3) array.push(a);
                 }
             }
         }
@@ -255,7 +256,7 @@ cc.Class({
             cc.sys.localStorage.setItem('zuomangjikai', '1');//-----------
         }
         if (cc.weijifen.match != 'true') {
-            cc.find('Canvas/bg/center/button/menuBtn/menu/exit').active = false;
+            cc.find('Canvas/menuBtn/menu/exit').active = false;
         }
         cc.sys.localStorage.setItem('isPlay', 'true');
         cc.weijifen.zuomangjikai = null;//-----------------

@@ -740,7 +740,7 @@ cc.Class({
     },
     initData: function () {
         if (cc.weijifen.match != 'true' || !cc.weijifen.match) {
-            cc.find('Canvas/bg/center/button/menuBtn/menu/exit').active = true;
+            cc.find('Canvas/menuBtn/menu/exit').active = true;
         }
         cc.sys.localStorage.getItem("replayData") != null ? cc.find('Canvas/replay').active = true : cc.find('Canvas/replay').active = false;
         this._allHandCardNode = cc.find('Canvas/cards/handCards');
@@ -748,7 +748,7 @@ cc.Class({
         this._cardTip = cc.find('Canvas/cards/otherCards/cardTip');
         this._tipsNode = cc.find('Canvas/AllTips');
         this._deskcardsNode = cc.find('Canvas/cards/deskCards');
-        this._menuBtn = cc.find('Canvas/bg/center/button/menuBtn');
+        this._menuBtn = cc.find('Canvas/menuBtn');
         this._playersNode = this.node.getChildByName('players');
         this._actionMenu = this.node.getChildByName('action');
         this._selectfather = cc.find('Canvas/other/actionSelectBg');

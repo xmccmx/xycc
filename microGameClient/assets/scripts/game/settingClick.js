@@ -36,7 +36,7 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
-        cc.find('Canvas/bg/center/button/menuBtn/mask').active = false;
+        cc.find('Canvas/menuBtn/mask').active = false;
     },
 
     start() {
@@ -91,8 +91,8 @@ cc.Class({
     },
     //点击菜单btn 下移或上拉列表
     settingBtnClick() {
-        let settting_box = cc.find('Canvas/bg/center/button/menuBtn/menu');
-        let menu_btn = cc.find('Canvas/bg/center/button/menuBtn');
+        let settting_box = cc.find('Canvas/menuBtn/menu');
+        let menu_btn = cc.find('Canvas/menuBtn');
         cc.weijifen.settingflag = !cc.weijifen.settingflag;
         setTimeout(() => {
             if (cc.weijifen.settingflag) {
