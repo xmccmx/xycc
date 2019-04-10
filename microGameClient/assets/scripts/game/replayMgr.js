@@ -215,7 +215,7 @@ cc.Class({
                 for (var i = 0; i < action.players.length; i++) {
                     var p = action.players[i];
                     if (p) {
-                        this.sortHandCard(p.playuser);
+                        this.sortHandCard(this._mjDataBind,p.playuser);
                     }
                 }
                 var res = JSON.parse(cc.sys.localStorage.getItem("replayRes"));
@@ -226,7 +226,7 @@ cc.Class({
             if (action.takeCards || action.command == 'takeCards') {//出牌
                 if (action.user != cc.weijifen.user.id) {
                     this.delCardOnCardArr(action.user, action);
-                    this.sortHandCard(action.user, true);
+                    this.sortHandCard(this._mjDataBind,action.user, true);
                 }
                 this._upid = action.user;
                 if (cc.find('Canvas/showTakeCardPanel').children) {
@@ -270,7 +270,7 @@ cc.Class({
                 if (action.userId != cc.weijifen.user.id) {
                     var context = this._mjDataBind;
                     let playerss = this._gameStartInit.player(action.userId, context);
-                    var arr = cc.find('Canvas/cards/handCards/' + playerss.tablepos + '/handCards');
+                    var arr = context._handCardNode[playerss.tablepos];
                     var lastCard = arr.children[arr.childrenCount - 1];
                     var deskCard = lastCard.getComponent('DeskCard');
                     lastCard.zIndex = 800;
@@ -358,9 +358,9 @@ cc.Class({
             //cc.weijifen.user.id = res.playUserList[0].gameResult.userId;//因为直接用token拿到的战绩，不是自己的所以需要改变默认id以适应gameevent中删除手牌js
             var roomInit = this._roomInit;
             var context = this._mjDataBind;
-            cc.find('Canvas/cards/handCards/top/handCards').y -= 3;
-            var r_handcard = cc.find('Canvas/cards/handCards/right/handCards');
-            var l_handcard = cc.find('Canvas/cards/handCards/left/handCards');
+            context._handCardNode['top'].y-=3;
+            var r_handcard = context._handCardNode['right'];
+            var l_handcard = context._handCardNode['left'];
             r_handcard.getComponent(cc.Layout).spacingY = -8;
             r_handcard.parent.x -= 40;
             r_handcard.parent.children[0].x += 23;
@@ -416,9 +416,9 @@ cc.Class({
         }
     },
     //给别人的手牌排序
-    sortHandCard: function (userid, one) {
+    sortHandCard: function (context,userid, one) {
         let playerss = this._gameStartInit.player(userid, this._mjDataBind);
-        var arr = cc.find('Canvas/cards/handCards/' + playerss.tablepos + '/handCards');
+        var arr =context._handCardNode[playerss.tablepos]; 
         if (one) {
             var lastcard = arr.children[arr.childrenCount - 1];
             var src = lastcard.getComponent('DeskCard');
@@ -454,7 +454,7 @@ cc.Class({
             temp = gameStartInitNode.deskcard_right;
             index = "R";
         }
-        var arr = cc.find('Canvas/cards/handCards/' + fangweis + '/handCards').children;
+        var arr =this._mjDataBind._handCardNode[fangweis].children;
         if (action.takeCards) { //别人出牌时从别人手牌中删除相应的牌
             for (var inx = 0; inx < arr.length; inx++) {
                 var deskcard = arr[inx].getComponent("DeskCard");

@@ -46,7 +46,8 @@ cc.Class({
     // 点击解散房间btn，弹出解散房间alert
     overClick: function () {
         // 房主解散房间
-        if (!cc.find('Canvas/cards/handCards/current/handCards').children) {
+        let context = cc.find('Canvas').getComponent('MJDataBind');
+        if (cc.sys.localStorage.getItem('isPlay') != 'true' && cc.weijifen.user.id != context.creatorid) {
             cc.weijifen.wjf.alert('游戏未开始只有房主可以解散房间!', null, 1, function () { cc.weijifen.alert.put(cc.find('Canvas/alert')); }, function () { cc.weijifen.alert.put(cc.find('Canvas/alert')); });
             return
         }
@@ -68,19 +69,19 @@ cc.Class({
             }
         }
         if (true) {
-            cc.sys.localStorage.setItem("userOverBtn", 1);
+            cc.sys.localStorage.setItem("userOverBtn", 1);//解散发起者，取消解散房间请求标记---不用发送请求关闭解散panel即可
             cc.sys.localStorage.setItem("jiesanTime", new Date());
             cc.weijifen.alert.put(cc.find('Canvas/alert'));
             if (cc.weijifen.alert.size() > 0) {
                 var item = cc.weijifen.alert.get();
                 item.parent = cc.find("Canvas");
                 let script = item.getComponent("Alert");
-                script.init('是否解散房间？', null, 2, cc.weijifen.alertjs.overGameClick, function () { cc.weijifen.alert.put(cc.find('Canvas/alert')); });
+                script.init('是否解散房间？', null, 2, cc.weijifen.alertjs.overGameClick, null);
                 script._canshow = true;
                 item.zIndex = 30000;
             }
             bol = false;
-            cc.find('Canvas').getComponent('MJDataBind')._me = true;
+            context._me = true;
         } else {
             cc.weijifen.wjf.alert('请30秒后再进行操作!', null, 1, null, null);
             let timer = setTimeout(function () {
@@ -116,7 +117,7 @@ cc.Class({
     },
     //点击退出房间btn弹出退出房间alert
     leaveClick: function () {
-        cc.weijifen.wjf.alert('是否退出房间？', null, 2, cc.weijifen.alertjs.leaveGameClick, function () { cc.weijifen.alert.put(cc.find('Canvas/alert')); });
+        cc.weijifen.wjf.alert('是否退出房间？', null, 2, cc.weijifen.alertjs.leaveGameClick, null);
     },
     /**
        * 点击解散btn时，弹出解散房间alert
@@ -131,7 +132,7 @@ cc.Class({
             var alert = cc.weijifen.alert.get();
             alert.parent = cc.find("Canvas");
             let script = alert.getComponent('Alert');
-            script.init('你的好友请求解散房间!', null, 3, script.overGameClick.bind(script), script.goonGameClick.bind(script));//差个拒绝func
+            script.init('你的好友请求解散房间!', null, 3, script.overGameClick.bind(script), script.goonGameClick.bind(script));
             script.showPlayerImg(script);
             if (cc.weijifen.GameBase.gameModel == 'ch') {
                 if (cc.sys.localStorage.getItem('overClickTime')) {
@@ -181,13 +182,11 @@ cc.Class({
         if (!cc.sys.localStorage.getItem('replayData')) {
             setTimeout(function () { self.endGameOver(data) }, time);
         }
-        cc.sys.localStorage.removeItem('subModel');
         cc.sys.localStorage.removeItem('overClickTime');
         cc.sys.localStorage.removeItem('isPlay');
         cc.sys.localStorage.removeItem('gotWsUrl');
         cc.sys.localStorage.removeItem('zuomangjikai');
         cc.sys.localStorage.removeItem('zuomangjikai2');
-        cc.sys.localStorage.removeItem("dengdai");
     },
     //渲染结算panel
     endGameOver: function (data) {

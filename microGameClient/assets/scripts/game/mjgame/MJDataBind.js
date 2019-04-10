@@ -179,7 +179,7 @@ cc.Class({
                 data = JSON.parse(data);
                 self.getSelf().route('takecards', self)(data, self);
                 // 手牌缺少，出牌之后，牌面缺失查找缺失牌面，并进行补充
-                let handcardnode = cc.find('Canvas/cards/handCards/current/handCards');
+                let handcardnode = self._handCardNode['current'];
                 if (data.userid == cc.weijifen.user.id && data.cards && data.cards.length != handcardnode.children.length) {
                     for (let i = 0; i < handcardnode.childrenCount; i++) {
                         let handcards = self.playercards[i].getComponent("HandCard");
@@ -257,7 +257,7 @@ cc.Class({
                         src.false.active = false;
                         src.true.x = 0;
                         src.list.y = 8;
-                        src._funok = function () { cc.weijifen.alert.put(cc.find('Canvas/alert')); }
+                        src._funok = null;
                         src.closeAlert(src);
                     }
                     return;
@@ -344,7 +344,7 @@ cc.Class({
                                 action: "ting",
                                 actionCard: [card_script.value]
                             }));
-                            self.getSelf().tingAction();
+                            self.getSelf().tingAction(self);
                             cc.find('Canvas/cards/handCards/banHandcardClick').active = true;
                         } else {
                             socket.emit("doplaycards", card_script.value);
@@ -466,10 +466,10 @@ cc.Class({
                 cc.sys.localStorage.removeItem('guo');
                 cc.sys.localStorage.setItem('ting', 'true');
                 cc.sys.localStorage.setItem('alting', 'true');
-                cc.weijifen.gameStartInit.initcardwidth(true);
-                self.getSelf().tingAction();
+                cc.weijifen.gameStartInit.initcardwidth(self,true);
+                self.getSelf().tingAction(self);
                 if (self.tings) {
-                    let cards = cc.find('Canvas/cards/handCards/current/handCards');
+                    let cards = self._handCardNode['current'];
                     for (let j = 0; j < self.tings.length; j++) {
                         let cv = self.tings[j].card;
                         for (let i = 0; i < cards.childrenCount; i++) {
@@ -639,9 +639,6 @@ cc.Class({
             cc.sys.localStorage.removeItem('guo');
             cc.sys.localStorage.removeItem('unOver');
             cc.sys.localStorage.removeItem('clear');
-            if (cc.sys.localStorage.getItem("dengdai") == null) {
-                cc.sys.localStorage.removeItem("cango");
-            }
             cc.sys.localStorage.removeItem('cb');
             cc.sys.localStorage.removeItem('timeIsClose');
             if (cc.sys.localStorage.getItem('zuomangjikai') == '1') {
@@ -654,8 +651,8 @@ cc.Class({
         }
     },
 
-    tingAction: function (dd) {//点击听牌btn时，对手牌的操作
-        let cards = cc.find('Canvas/cards/handCards/current/handCards');
+    tingAction: function (context,dd) {//点击听牌btn时，对手牌的操作
+        let cards = context._handCardNode['current'];
         for (let i = 0; i < cards.childrenCount; i++) {
             let handCards = cards.children[i].getComponent("HandCard");
             if (dd) {
@@ -1075,7 +1072,7 @@ cc.Class({
                 if (times < 10) {
                     text = "0" + times;
                     if (cc.weijifen.match == 'true' && times < 1) {
-                        let current_cards = cc.find('Canvas/cards/handCards/current/handCards');
+                        let current_cards = object._handCardNode['current'];
                         if (current_cards.children[0]) {// 改条件：手牌未初始化，防止重新加载majiang场景时报错。
                             cc.weijifen.cardPostion = {
                                 x: current_cards.x + current_cards.width - current_cards.children[0].width,

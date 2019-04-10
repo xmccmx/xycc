@@ -80,7 +80,7 @@ cc.Class({
         let self = this;
         // null  && 
         if (cc.weijifen.click == 1 && cc.sys.localStorage.getItem('alting') != 'true') {
-            this.huifu();
+            this.huifu(context);
             this.node.dispatchEvent(new cc.Event.EventCustom('takecard', true));
         } else {
             let tingnode = cc.find('Canvas/other/tingSelectBg');
@@ -94,11 +94,11 @@ cc.Class({
                 }
                 event.target.x = 0;
                 event.target.y = 0;
-                this.huifu();
+                this.huifu(context);
                 this.node.dispatchEvent(new cc.Event.EventCustom('takecard', true));
             } else {
                 // 点击出的牌，y值变高突出于手牌
-                this.huifu();
+                this.huifu(context);
                 if (cc.sys.localStorage.getItem('alting') == 'true') {
                     cc.sys.localStorage.setItem('take', 'true');
                 }
@@ -129,8 +129,8 @@ cc.Class({
             }
         }
     },
-    huifu: function () {
-        let nodes = cc.find('Canvas/cards/handCards/current/handCards');
+    huifu: function (context) {
+        let nodes = context._handCardNode['current'];
         for (let i = 0; i < nodes.childrenCount; i++) {
             let handCards = nodes.children[i].getComponent("HandCard");
             handCards.take = false;
@@ -152,17 +152,14 @@ cc.Class({
         if (this.node.children[1]) this.node.children[1].active = false;
         this.cardcolor();
         this.caishen = false;
-        this.take = false;
+        this.take = false;//是否已被点击突出显示
         this.value = cvalue;
         let cardcolors = parseInt(this.value / 4);
         let cardtype = parseInt(cardcolors / 9);
 
         this.mjtype = cardtype;
         this.mjvalue = parseInt((this.value % 36) / 4);
-
-        let deskcard;
-        this.lastonecard = false;
-
+        this.lastonecard = false;//最后一张手牌标记
         let csType1, csType2;
         let csCardColors1, csCardColors2;
         let csValue1, csValue2;
@@ -176,7 +173,7 @@ cc.Class({
                 csValue2 = (parseInt((cc.weijifen.powerCard[1] % 36) / 4) + 1);
             }
         }
-
+        let deskcard;
         if (cardcolors < 0) {
             var array = ['M_wind_east', 'M_wind_south', 'M_wind_west', 'M_wind_north', 'M_red', 'M_green', 'M_white'];
             if (array[cardcolors + 7]) {
@@ -227,7 +224,7 @@ cc.Class({
     caishenCards: function () {
         this.node.children[1].active = true;
         this.node.zIndex = -999 + this.value;
-        if (cc.sys.localStorage.getItem('subModel') == 'HAZ' || cc.weijifen.GameBase.gameModel == 'jx') {
+        if (cc.weijifen.GameBase.gameModel == 'jx') {
             this.node.getComponent(cc.Button).enabled = true;//杭州麻将---财神可以出
             this.cardvalue.color = new cc.Color(255, 255, 255);
         } else {

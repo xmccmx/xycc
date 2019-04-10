@@ -93,89 +93,43 @@ cc.Class({
             I.active = true;
             I.getComponent(cc.Label).string = data.msg;
         }
-        if (cc.weijifen.playerNum == 2) {
-            if (data.id != cc.weijifen.user.id && data.id != cc.sys.localStorage.getItem('top') || (typeof cc.weijifen.match == 'function' || cc.weijifen.match == 'true') && data.id == cc.weijifen.user.id) {
-                var player = context.playerspool.get();
-                var playerscript = player.getComponent("MJPlayer");
-                var tablepos = "";
-                if (data.id == cc.weijifen.user.id) {
-                    tablepos = 'current';
-                    roomInit.playerPosition(player, 'current', data, '0');
-                } else {
-                    tablepos = 'top';
-                    roomInit.playerPosition(player, 'top', data, '2');
-                }
-                playerscript.init(data, tablepos);
-                context.playersarray.push(player);
-                if (data.status == 'READY' && !cc.weijifen.banker) {
-                    roomInit.readyHandle(tablepos, context, data);
-                }
+        // 因为 加入会触发 改变状态也会触发该事件，所以用getitem保存一个数据 如果有了这个数据则 只判断状态的改变  如果没有则表示新玩家加入
+        if (data.id != cc.sys.localStorage.getItem('current') && data.id != cc.sys.localStorage.getItem('right') && data.id != cc.sys.localStorage.getItem('left') && data.id != cc.sys.localStorage.getItem('top') || (typeof cc.weijifen.match == 'function' || cc.weijifen.match == 'true') && data.id == cc.sys.localStorage.getItem('current')) {
+            var player = context.playerspool.get();
+            var playerscript = player.getComponent("MJPlayer");
+            var tablepos = "", num;
+            var inx = cc.sys.localStorage.getItem('count');
+            if (data.id == cc.weijifen.user.id) {
+                tablepos = 'current'; num = '0';
             } else {
-                roomInit.returnRoom(context, data);
-            }
-        } else if (cc.weijifen.playerNum == 3) {
-            if (data.id != cc.sys.localStorage.getItem('current') && data.id != cc.sys.localStorage.getItem('right') && data.id != cc.sys.localStorage.getItem('top') || (typeof cc.weijifen.match == 'function' || cc.weijifen.match == 'true') && data.id == cc.sys.localStorage.getItem('current')) {
-                var player = context.playerspool.get();
-                var playerscript = player.getComponent("MJPlayer");
-                var tablepos = "", num;
-                var inx = cc.sys.localStorage.getItem('count');
-                if (data.id == cc.weijifen.user.id) {
-                    tablepos = 'current';
-                    num = '0';
-                } else {
+                if (cc.weijifen.playerNum == 2) {
+                    tablepos = 'top'; num = '2';
+                } else if (cc.weijifen.playerNum == 3) {
                     if (inx == 0 || inx == 2) {
-                        tablepos = 'right';
-                        num = '1';
+                        tablepos = 'right'; num = '1';
                     } else if (inx == 1) {
-                        tablepos = 'top';
-                        num = '2';
+                        tablepos = 'top'; num = '2';
                     }
-                }
-                roomInit.playerPosition(player, tablepos, data, num);
-                playerscript.init(data, tablepos);
-                context.playersarray.push(player);
-                //这里是用来判定自己重连的时候 如果已经准备了 则准备按钮消失
-                if (data.status == 'READY' && !cc.weijifen.banker) {
-                    roomInit.readyHandle(tablepos, context, data);
-                }
-            } else {
-                roomInit.returnRoom(context, data);
-            }
-        } else {
-            // 这是默认的4人模式 
-            // 因为 加入会触发 改变状态也会触发该事件，所以用getitem保存一个数据 如果有了这个数据则 只判断状态的改变  如果没有则表示新玩家加入
-            if (data.id != cc.sys.localStorage.getItem('current') && data.id != cc.sys.localStorage.getItem('right') && data.id != cc.sys.localStorage.getItem('left') && data.id != cc.sys.localStorage.getItem('top') || (typeof cc.weijifen.match == 'function' || cc.weijifen.match == 'true') && data.id == cc.sys.localStorage.getItem('current')) {
-                var player = context.playerspool.get();
-                var playerscript = player.getComponent("MJPlayer");
-                var tablepos = "", num;
-                var inx = cc.sys.localStorage.getItem('count');
-                if (data.id == cc.weijifen.user.id) {
-                    tablepos = 'current';
-                    num = '0';
                 } else {
                     if (inx == 0 || inx == 3) {
-                        tablepos = 'right';
-                        num = '1';
+                        tablepos = 'right'; num = '1';
                     } else if (inx == 1) {
-                        tablepos = 'top';
-                        num = '2';
+                        tablepos = 'top'; num = '2';
                     } else if (inx == 2) {
-                        tablepos = 'left';
-                        num = '3';
+                        tablepos = 'left'; num = '3';
                     }
                 }
-                roomInit.playerPosition(player, tablepos, data, num);
-                playerscript.init(data, tablepos);
-                context.playersarray.push(player);
-                //这里是用来判定自己重连的时候 如果已经准备了 则准备按钮消失
-                if (data.status == 'READY' && !cc.weijifen.banker) {
-                    roomInit.readyHandle(tablepos, context, data);
-                }
-            } else {
-                roomInit.returnRoom(context, data);
             }
+            roomInit.playerPosition(player, tablepos, data, num);
+            playerscript.init(data, tablepos);
+            context.playersarray.push(player);
+            //这里是用来判定自己重连的时候 如果已经准备了 则准备按钮消失
+            if (data.status == 'READY' && !cc.weijifen.banker) {
+                roomInit.readyHandle(tablepos, context, data);
+            }
+        } else {
+            roomInit.returnRoom(context, data);
         }
-
     },
     readyHandle(tablepos, context, data) {
         cc.find('Canvas/players/ok_' + tablepos + '').active = true;
@@ -204,11 +158,11 @@ cc.Class({
         var playerarray = context.playersarray;
         if (playerarray) {
             for (let i = 0; i < playerarray.length; i++) {
-                var playerinfo = playerarray[i].getComponent('MJPlayer');
-                var tablepos = playerinfo.tablepos;
-                var on_off_line = playerinfo.unLineImg;
-                var headimg = playerinfo.headImg;
-                if (data.id == playerinfo.id.string) {
+                var src = playerarray[i].getComponent('MJPlayer');
+                var tablepos = src.tablepos;
+                var on_off_line = src.unLineImg;
+                var headimg = src.headImg;
+                if (data.id == src.id.string) {
                     if (data.status == 'READY') {//在发牌之后不应该再显示ok手势
                         if (!cc.weijifen.banker || context.playercards.length == 0) {
                             let ok = cc.find('Canvas/players/ok_' + tablepos + '');

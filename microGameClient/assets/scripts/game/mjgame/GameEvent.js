@@ -291,7 +291,7 @@ cc.Class({
         if (cc.sys.localStorage.getItem("replayData") != null || tablepos == 'current') {
             return;
         }
-        var par = cc.find('Canvas/cards/handCards/' + tablepos + '/handCards');
+        var par = context._handCardNode[tablepos];
         var arr;
         if (tablepos == 'top') arr = context.topcards;//存放其他玩家手牌的数组
         if (tablepos == 'right') arr = context.rightcards;

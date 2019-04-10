@@ -110,6 +110,7 @@ cc.Class({
             cc.weijifen.playerNum = data.players.length;
         }
         cc.weijifen.banker = data.players[0].id;
+        context.creatorid=data.players[0].id;//创建房间玩家的id
         var self = cc.weijifen.gameStartInit;
         if (cc.weijifen.state == 'init' || cc.weijifen.state == 'ready') {
             self.collect(context);    //先回收资源，然后再初始化
@@ -214,9 +215,9 @@ cc.Class({
     collect: function (context) {
         for (var i = 0; i < context.playersarray.length;) {
             let player = context.playersarray[i];
-            var playerscript = player.getComponent("MJPlayer");
-            if (playerscript.id.string != cc.weijifen.user.id) {       //当前 玩家不回收，最终 Destroy 的时候会被回收
-                playerscript.id.string = '';
+            var src = player.getComponent("MJPlayer");
+            if (src.id.string != cc.weijifen.user.id) {       //当前 玩家不回收，最终 Destroy 的时候会被回收
+                src.id.string = '';
                 context.playerspool.put(player);
                 context.playersarray.splice(i, 1);
             } else {
@@ -238,9 +239,9 @@ cc.Class({
     banker_event: function (data, context) {//设置庄家id
         cc.weijifen.banker = data.userid;
         for (var inx = 0; inx < context.playersarray.length; inx++) {
-            let temp = context.playersarray[inx].getComponent("MJPlayer");
-            if (temp.id.string == data.userid) {
-                temp.zhuangNode.active = true;
+            let src = context.playersarray[inx].getComponent("MJPlayer");
+            if (src.id.string == data.userid) {
+                src.zhuangNode.active = true;
                 break;
             }
         }
@@ -258,7 +259,7 @@ cc.Class({
         if (cc.weijifen.match != 'true') {
             cc.find('Canvas/menuBtn/menu/exit').active = false;
         }
-        cc.sys.localStorage.setItem('isPlay', 'true');
+        cc.sys.localStorage.setItem('isPlay', 'true');//发牌了，开局了
         cc.weijifen.zuomangjikai = null;//-----------------
         context.readyNoActive(context);//发牌了  关闭所有OK手势
         context._btnNode.getChildByName('readyBtn').active = false;
@@ -467,7 +468,7 @@ cc.Class({
                 cc.sys.localStorage.setItem('alting', 'true');
                 cc.sys.localStorage.setItem('altings', 'true');
                 cc.sys.localStorage.setItem('take', 'true')
-                context.tingAction(true);
+                context.tingAction(context,true);
             }
             //打开当前回合出牌的方位大灯
             if (data.touchPlay) {
@@ -621,7 +622,7 @@ cc.Class({
         * @param  banker  
         */
     initMjCards: function (context, cards) {
-        let cards_panel = cc.find('Canvas/cards/handCards/current/handCards');
+        let cards_panel = context._handCardNode['current'];
         for (var i = 0; i < cards.length; i++) {
             if (context.cardpool.size() > 0) {
                 let temp = context.cardpool.get();
@@ -636,8 +637,8 @@ cc.Class({
         * 此为恢复麻将状态  1、宽度 2、缩回来 3、颜色 
         * ting  true 为听牌时的状态
         */
-    initcardwidth: function (ting) {
-        let length = cc.find('Canvas/cards/handCards/current/handCards');
+    initcardwidth: function (context,ting) {
+        let length = context._handCardNode['current'];
         for (let i = 0; i < length.childrenCount; i++) {
             let target = length.children[i];
             let card = target.getComponent('HandCard');
@@ -677,7 +678,7 @@ cc.Class({
     reinitGame: function (context) {
         var self = this;
         let arr = ['current', 'left', 'right', 'top'];
-        self.tingnoaction();
+        self.tingnoaction(context);
         for (let i in arr) {
             self.destroycards(arr[i], context);
         }
@@ -696,7 +697,7 @@ cc.Class({
         cc.sys.localStorage.removeItem('cb');
     },
     destroycards: function (fangwei, context) {//清楚并回收桌面的所有牌、补花数据
-        let handcard = cc.find('Canvas/cards/handCards/' + fangwei + '/handCards');
+        let handcard = context._handCardNode[fangwei];
         let deskcard = cc.find('Canvas/cards/deskCards/' + fangwei + '');
         let kong = cc.find('Canvas/cards/handCards/' + fangwei + '/kongCards');
         if (fangwei == 'current') {
@@ -727,8 +728,8 @@ cc.Class({
             kong.children[i].destroy();
         }
     },
-    tingnoaction: function () {//恢复所有将要回收的手牌的点击响应和颜色，利于重复利用
-        let cards = cc.find('Canvas/cards/handCards/current/handCards');
+    tingnoaction: function (context) {//恢复所有将要回收的手牌的点击响应和颜色，利于重复利用
+        let cards = context._handCardNode['current'];
         for (let i = 0; i < cards.childrenCount; i++) {
             let button = cards.children[i];
             let handCards = cards.children[i].getComponent("HandCard");

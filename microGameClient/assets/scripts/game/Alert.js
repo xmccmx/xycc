@@ -52,7 +52,6 @@ cc.Class({
      * @param {*拒绝func} fun2 
      */
     init: function (upmsg, midmsg, btn, fun1, fun2) {
-
         this.list.y = 8;
         for (var i = this.list.childrenCount - 1; i > 0; i--) {
             this.list.children[i].destroy();
@@ -64,25 +63,25 @@ cc.Class({
             this.midMsg.active = true;
             this.midMsg.getComponent(cc.Label).string = midmsg;
         }
-        var spriteFalse = this.false.getComponent(cc.Sprite).SpriteFrame;
-        var spriteTrue = this.true.getComponent(cc.Sprite).SpriteFrame;
         this._funok = fun1;
         this._funno = fun2;
+        var sprFalse = this.false.getComponent(cc.Sprite).SpriteFrame;
+        var sprTrue = this.true.getComponent(cc.Sprite).SpriteFrame;
         if (btn != 1) {
             this.false.active = true;
             this.true.setPosition(-105, -75);
             this.false.setPosition(105, -75);
             if (btn == 2) {//确定、取消弹框
-                spriteFalse = this.quxiao;
-                spriteTrue = this.queding;
+                sprFalse = this.quxiao;
+                sprTrue = this.queding;
             }
             if (btn == 3) {//同意、拒绝弹框
-                spriteFalse = this.jujue;
-                spriteTrue = this.tongyi;
+                sprFalse = this.jujue;
+                sprTrue = this.tongyi;
             }
         } else {
             this.false.active = false;
-            spriteTrue = this.queding;
+            sprTrue = this.queding;
             this.true.setPosition(0, -75);
         }
     },
@@ -99,7 +98,7 @@ cc.Class({
     nofunc: function () {
         let self = this;
         if (this._funno != null) {
-            this._funno();
+            this._funno(this);
             this._funok = null;
             this._funno = null;
         } else {
@@ -139,8 +138,9 @@ cc.Class({
         cc.sys.localStorage.removeItem("jiesanTime");
     },
     //继续游戏 发送一个不退出请求   拒绝解散房间
-    goonGameClick: function () {
+    goonGameClick: function (obj) {
         if (cc.sys.localStorage.getItem("userOverBtn") != 1) {
+            obj.upMsg.getComponent(cc.Label).string = '已拒绝解散请求...';
             let REFUSE = true;
             var oper = new cc.Event.EventCustom('overGame', true);
             oper.setUserData(REFUSE);
@@ -171,9 +171,6 @@ cc.Class({
                 self.upMsg.getComponent(cc.Label).string = '离开失败，请稍后重试';
             }.bind(self));
     },
-    refresh: function (obj) {
-
-    },
     closeAlert: function (obj) {
         var temp = obj.schedule(
             function () {
@@ -191,7 +188,7 @@ cc.Class({
         for (var i in arr) {
             var mjplayer = arr[i].getComponent('MJPlayer');
             var bol = true;
-            for (var j in array) {//playersarray里面会出现重复的现象
+            for (var j in array) {//playersarray里面会出现重复的现象--已修正，留着有备无患
                 if (array[j] == mjplayer.id.string) {
                     bol = false;
                     break;
@@ -206,7 +203,6 @@ cc.Class({
                 item.active = true;
                 item.parent = src.list;
             }
-
         }
     },
     // update (dt) {},

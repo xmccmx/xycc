@@ -135,14 +135,14 @@ cc.Class({
         }
         if (data.userid == cc.weijifen.user.id) {//接到出牌消息了，就需要将出牌相关提示关闭：听牌选择、蛋牌选择、牌的高度
             if (!data.ting) {
-                gameStartInit.tingnoaction();
+                gameStartInit.tingnoaction(context);
             }
             let father = cc.find('Canvas/other/actionSelectBg');
             if (father.active == true) {
                 father.active = false;
                 if (father.children[0].children[0].children) father.children[0].children[0].removeAllChildren();
             }
-            gameStartInit.initcardwidth();
+            gameStartInit.initcardwidth(context);
 
             if (data.ting) {//听牌了，将选择听牌panel里的牌都清除
                 cc.sys.localStorage.setItem('alting', 'true');
@@ -160,7 +160,7 @@ cc.Class({
             }
             cc.sys.localStorage.removeItem('altake');
             cc.sys.localStorage.removeItem('take');
-            let h_cards = cc.find('Canvas/cards/handCards/current/handCards');
+            let h_cards = context._handCardNode['current'];
             for (var inx = 0; inx < context.playercards.length; inx++) {
                 let handcards = context.playercards[inx].getComponent("HandCard");
                 handcards.reinit();
@@ -275,7 +275,7 @@ cc.Class({
                 tip.active = false;
             }, 1500);
         }
-        var handCards = cc.find('Canvas/cards/handCards/current/handCards');
+        var handCards = context._handCardNode['current'];
         var length = handCards.childrenCount;
         //玩家最后一张牌就是摸到的，已经隔出距离了，现在又摸牌，就将原来那张排序、去掉间隔
         if (length > 3 && cc.weijifen.user.id == data.userid && handCards.children[length - 1].zIndex == 2000) {
@@ -324,7 +324,7 @@ cc.Class({
 
         if (data.userid == cc.weijifen.user.id) {
             if (cc.sys.localStorage.getItem('altings') != 'true') {
-                gameStartInit.tingnoaction();
+                gameStartInit.tingnoaction(context);
             }
             if (cc.sys.localStorage.getItem('altake') != 'true') {
                 cc.sys.localStorage.setItem('take', 'true');
@@ -354,7 +354,7 @@ cc.Class({
     },
     initDealHandCards: function (context, data) {
         var gameStartInit = cc.find('Canvas').getComponent('GameStartInit');
-        gameStartInit.initcardwidth();
+        gameStartInit.initcardwidth(context);
         let temp;
         if (context.cardpool.size() > 0) {
             temp = context.cardpool.get();
@@ -369,7 +369,7 @@ cc.Class({
             temp.zIndex = 2000; //直接放到最后了，出牌后，恢复 zIndex
             temp.opacity = 0;
             temp.y += 80;
-            temp.parent = cc.find('Canvas/cards/handCards/current/handCards');  //庄家的最后一张牌
+            temp.parent = context._handCardNode['current'];  //庄家的最后一张牌
             temp_script.showAction();//渐现
         }
     },
