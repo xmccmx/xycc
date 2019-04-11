@@ -225,6 +225,7 @@ cc.Class({
         if (cc.sys.localStorage.getItem('matchData')) {
             cc.sys.localStorage.removeItem('matchData');
         };
+        cc.sys.localStorage.removeItem('replayData');//回放数据是打开详细战况panel就set了，不看回放就清掉
         cc.weijifen.menu.put(this.node);
     },
 });

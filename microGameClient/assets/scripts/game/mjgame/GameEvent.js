@@ -596,16 +596,16 @@ cc.Class({
                 clearTimeout(huTime);
             }, 2000);
         }
-        function weizhi(player, img) {
+        function weizhi(fangwei, img) {
             img.width = 448;
             img.height = 168;
-            if (player.tablepos == 'top') {
+            if (fangwei == 'top') {
                 img.x = 0;
                 img.y = 160;
-            } else if (player.tablepos == 'left') {
+            } else if (fangwei == 'left') {
                 img.x = -320;
                 img.y = 0;
-            } else if (player.tablepos == 'right') {
+            } else if (fangwei == 'right') {
                 img.x = 320;
                 img.y = 0;
             } else {
@@ -617,71 +617,52 @@ cc.Class({
         //结算界面，
         let playerid;
         cc.sys.localStorage.removeItem('clear');
-        // for (let i = 0; i < data.playOvers.length; i++) {
-        // if (data.playOvers[i].balance) {
-        //     if (data.playOvers[i].balance.drop) {// 点炮
-        //         let anim = cc.find('Canvas/dianpao');
-        //         anim.width = 448;
-        //         anim.height = 168;
-        //         if (player1.tablepos == 'top') {
-        //             anim.x = 0;
-        //             anim.y = 160;
-        //         } else if (player1.tablepos == 'left') {
-        //             anim.x = -320;
-        //             anim.y = 0;
-        //         } else if (player1.tablepos == 'right') {
-        //             anim.x = 320;
-        //             anim.y = 0;
-        //         } else {
-        //             anim.x = 0;
-        //             anim.y = -160;
-        //         }
-        //         anim.active = true;
-        //         anim = anim.getComponent(cc.Animation);
-        //         anim.play('dianpao');
-        //         let time = setTimeout(function () {
-        //             cc.find('Canvas/dianpao').active = false;
-        //             clearTimeout(time);
-        //         }, 4000)
-        //     } else if (data.playOvers[i].balance.chongBao || data.playOvers[i].balance.moBao) {// 冲宝
-        //         let anim = cc.find('Canvas/chongbao');
-        //         weizhi(player, anim);
-        //         anim.active = true;
-        //         anim = anim.getComponent(cc.Animation);
-        //         anim.play('chongbao');
-        //         cc.log('chongbao');
-        //         let time = setTimeout(function () {
-        //             clearTimeout(time);
-        //             cc.find('Canvas/chongbao').active = false;
-        //         }, 4000)
-        //     } else {
-        //         if (data.playOvers[i].balance.zimo) {// 自摸
-        //             let anim = cc.find('Canvas/zimo');
-        //             weizhi(player, anim);
-        //             anim.active = true;
-        //             anim = anim.getComponent(cc.Animation);
-        //             anim.play('zimo');
-        //             cc.log('zimo')
-        //             let time = setTimeout(function () {
-        //                 cc.find('Canvas/zimo').active = false;
-        //                 clearTimeout(time);
-        //             }, 4000);
-        //         }
-        //     }
-        // }
-        // if (data.playOvers[i].win == true) {
-        //     playerid = data.playOvers[i].user;
-        //     if (data.playOvers[i].balance.huCard > -32) {
-        //         var dan = gameOverNode.current_hu.children[1].getComponent('DeskCard');
-        //         dan.init(data.playOvers[i].balance.huCard, false, 'current', '1');
-        //     } else {
-        //         gameOverNode.current_hu.children[1].active = false;
-        //         gameOverNode.top_hua.active = true;
-        //         var dan = gameOverNode.top_hua.getComponent('BuHuaAction');
-        //         dan.init(data.playOvers[i].balance.huCard, '', false);
-        //     }
-        // }
-        // }
+        for (let i = 0; i < data.playOvers.length; i++) {
+            if (data.playOvers[i].balance) {
+                var fangweis, name;
+                if (data.playOvers[i].balance.drop) {// 点炮
+                    fangweis = player1.tablepos;
+                    name = '点炮';
+
+                } else if (data.playOvers[i].balance.chongBao || data.playOvers[i].balance.moBao) {// 冲宝
+                    fangweis = player.tablepos;
+                    name = '冲宝';
+                } else {
+                    if (data.playOvers[i].balance.zimo) {// 自摸
+                        fangweis = player.tablepos;
+                        name = '自摸';
+                    }
+                }
+                var spr = cc.find('Canvas/animations2');
+                weizhi(fangweis, spr);
+                spr.active = true;
+                var sprite = spr.getComponent(cc.Sprite);
+                cc.loader.loadRes('atlas/mj2/emoji/ani_action', cc.SpriteAtlas, function (err, data) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    if (data) {
+                        sprite.spriteFrame = data.getSpriteFrame(name);
+                    }
+                })
+                let time = setTimeout(function () {
+                    spr.active = false;
+                    clearTimeout(time);
+                }, 3000);
+            }
+            // if (data.playOvers[i].win == true) {
+            //     playerid = data.playOvers[i].user;
+            //     if (data.playOvers[i].balance.huCard > -32) {
+            //         var dan = gameOverNode.current_hu.children[1].getComponent('DeskCard');
+            //         dan.init(data.playOvers[i].balance.huCard, false, 'current', '1');
+            //     } else {
+            //         gameOverNode.current_hu.children[1].active = false;
+            //         gameOverNode.top_hua.active = true;
+            //         var dan = gameOverNode.top_hua.getComponent('BuHuaAction');
+            //         dan.init(data.playOvers[i].balance.huCard, '', false);
+            //     }
+            // }
+        }
         // gameEvent.huaction(playerid);//胡牌时头像放大，胡牌动画
         setTimeout(function () { gameEvent.endList(data, context, playerid, gameEvent) }, 2500);
         cc.find('Canvas/cards/handCards/banHandcardClick').active = false;//关闭手牌点击影响panel

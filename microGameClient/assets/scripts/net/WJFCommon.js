@@ -169,7 +169,7 @@ cc.Class({
             cc.weijifen.games = data.games;
         }
         cc.weijifen.playway = null;
-        cc.weijifen.localStorage.put("userinfo", result);
+        cc.sys.localStorage.setItem("userinfo", result)
     },
     logout: function () {//断开socket并且销毁已有alert，同时初始化token、user、games、playway
         if (cc.weijifen.dialog != null) {

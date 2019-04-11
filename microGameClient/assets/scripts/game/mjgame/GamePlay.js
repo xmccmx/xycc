@@ -306,10 +306,9 @@ cc.Class({
     dealcards: function (data, context) {
         cc.sys.localStorage.removeItem('cb');
         var gamePlay = cc.weijifen.gamePlay;
-        var gameStartInit = cc.weijifen.gameStartInit;
         var gameStartInitNode = cc.find('Canvas').getComponent('GameStartInit');
         context.closeloadding();
-        let player = gameStartInit.player(data.userid, context);
+        let player = gameStartInitNode.player(data.userid, context);
         if (player) context.changeLight(player.tablepos, context);
         context.changeStatu("nextplayer", context);
         //摸牌补花
@@ -318,13 +317,13 @@ cc.Class({
             // var buhua = context.decode(data.bu);//补花
             var buhua = data.bu;//补花
             for (var i = 0; i < buhua.length; i++) {
-                gameStartInit.buhuaModle(buhua[i], player.tablepos);
+                gameStartInitNode.buhuaModle(buhua[i], player.tablepos);
             }
         }
 
         if (data.userid == cc.weijifen.user.id) {
             if (cc.sys.localStorage.getItem('altings') != 'true') {
-                gameStartInit.tingnoaction(context);
+                gameStartInitNode.tingnoaction(context);
             }
             if (cc.sys.localStorage.getItem('altake') != 'true') {
                 cc.sys.localStorage.setItem('take', 'true');
@@ -334,13 +333,10 @@ cc.Class({
             gamePlay.initDealHandCards(context, data);
         } else {
             if (player) {
-                gameStartInit.initPlayerHandCards(player.tablepos, context, 1);
+                gameStartInitNode.initPlayerHandCards(player.tablepos, context, 1);
             }
         }
         gameStartInitNode._cardsCount.string = data.deskcards;
-        if (data.power) {
-            console.log('摸宝');            
-        }
     },
     initDealHandCards: function (context, data) {
         var gameStartInit = cc.find('Canvas').getComponent('GameStartInit');

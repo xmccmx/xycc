@@ -136,14 +136,13 @@ cc.Class({
     //游客登录方法
     tourist: function(){
         if(tongyi){
-            this.io = require("IOUtils");
             this.loadding();
-            if(this.io.get("userinfo") == null){
+            if(cc.sys.localStorage.getItem('userinfo') == null){
                 //发送游客注册请求
                 var xhr = cc.weijifen.http.httpGet("/api/guest", this.guestSucess , this.error , this);
             }else{
                 //通过ID获取 玩家信息
-                var data = JSON.parse(this.io.get("userinfo")) ;
+                var data = JSON.parse(cc.sys.localStorage.getItem('userinfo')) ;
                 if(data.token != null){     //获取用户登录信息
                     var xhr = cc.weijifen.http.httpGet("/api/guest?token="+data.token.id, this.guestSucess , this.error , this);
                 }
@@ -178,7 +177,6 @@ cc.Class({
         }
     },
     login:function(code,target){
-        this.io = require("IOUtils");
         this.loadding();
         cc.weijifen.http.httpGet('/android/appLogin?code='+code+'&gameModel='+cc.weijifen.GameBase.gameModel,target.sucess,target.error,target);
     },

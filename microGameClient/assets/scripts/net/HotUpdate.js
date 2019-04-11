@@ -30,6 +30,10 @@ cc.Class({
             default: null,      // object's default value is null
           },
         updateUI: cc.Node,//更新提示的遮罩层
+        byteProgress: cc.ProgressBar,//字节进度条
+        byteLabel: cc.Label,//进度label
+        retryBtn: cc.Node,
+        info:cc.Label,//提示信息label   new node
         _updating: false,
         _canRetry: false,
         _storagePath: ''
@@ -84,7 +88,7 @@ cc.Class({
             // this._am.retain();
         }
 
-        var panel = this.panel;
+        var self = this;
         // Setup the verification callback, but we don't have md5 check function yet, so only print some message
         
         // Return true if the verification passed, otherwise return false
@@ -98,27 +102,27 @@ cc.Class({
             // The size of asset file, but this value could be absent.
             var size = asset.size;
             if (compressed) {
-                panel.info.string = "Verification passed : " + relativePath;
+                self.info.string = "Verification passed : " + relativePath;
                 return true;
             }
             else {
-                panel.info.string = "Verification passed : " + relativePath + ' (' + expectedMD5 + ')';
+                self.info.string = "Verification passed : " + relativePath + ' (' + expectedMD5 + ')';
                 return true;
             }
         });
 
-        // this.panel.info.string = 'Hot update is ready, please check or directly update.';
-        this.panel.info.string = '有新版本，请检测新版本或者直接下载更新！';
+        // this.info.string = 'Hot update is ready, please check or directly update.';
+        this.info.string = '有新版本，请检测新版本或者直接下载更新！';
 
         if (cc.sys.os === cc.sys.OS_ANDROID) {
             // Some Android device may slow down the download process when concurrent tasks is too much.
             // The value may not be accurate, please do more test and find what's most suitable for your game.
             this._am.setMaxConcurrentTask(2);
-            // this.panel.info.string = "Max concurrent tasks count have been limited to 2";
+            // this.info.string = "Max concurrent tasks count have been limited to 2";
         }
         
         this.panel.fileProgress.progress = 0;
-        this.panel.byteProgress.progress = 0;
+        this.byteProgress.progress = 0;
         this.checkUpdate();//直接检查是否有新版本需要更新        
     },
     /*检查更新回调*/
@@ -126,25 +130,25 @@ cc.Class({
         switch (event.getEventCode())
         {
             case jsb.EventAssetsManager.ERROR_NO_LOCAL_MANIFEST:
-                // this.panel.info.string = "No local manifest file found, hot update skipped.";
-                this.panel.info.string = "未找到mainfest文件，热更新失败！";
+                // this.info.string = "No local manifest file found, hot update skipped.";
+                this.info.string = "未找到mainfest文件，热更新失败！";
                 break;
             case jsb.EventAssetsManager.ERROR_DOWNLOAD_MANIFEST:
             case jsb.EventAssetsManager.ERROR_PARSE_MANIFEST:
-                this.panel.info.string = "下载服务器上的远程资源manifest到临时文件失败，或者解析时出错！";
+                this.info.string = "下载服务器上的远程资源manifest到临时文件失败，或者解析时出错！";
                 break;
             case jsb.EventAssetsManager.ALREADY_UP_TO_DATE:
-                this.panel.info.string = "Already up to date with the latest remote version.";
-                // this.panel.info.string = "检测到新版本！";
+                this.info.string = "Already up to date with the latest remote version.";
+                // this.info.string = "检测到新版本！";
                 break;
             case jsb.EventAssetsManager.NEW_VERSION_FOUND:
-                // this.panel.info.string = '检测到新版本，请进行更新！';
+                // this.info.string = '检测到新版本，请进行更新！';
                 // this.panel.checkBtn.active = false;
                 // this.panel.fileProgress.progress = 10;
                 // cc.find("Canvas/New Label").getComponent(cc.Label).string='检查到新版本进行默认更新中';
                 cc.find("Canvas/global/button/button1").active=false;
                 this.updateUI.active=true;
-                this.panel.byteProgress.progress = 0;
+                this.byteProgress.progress = 0;
                 this._updating = false;
                 this.hotUpdate();//检查到新版本直接默认更新                
                 break;
@@ -163,53 +167,53 @@ cc.Class({
         switch (event.getEventCode())
         {
             case jsb.EventAssetsManager.ERROR_NO_LOCAL_MANIFEST:
-                this.panel.info.string = '没有找到mainfest文件，跳过更新';
+                this.info.string = '没有找到mainfest文件，跳过更新';
                 failed = true;
                 break;
             case jsb.EventAssetsManager.UPDATE_PROGRESSION:
-                this.panel.byteProgress.progress = event.getPercent();
+                this.byteProgress.progress = event.getPercent();
                 this.panel.fileProgress.progress = event.getPercentByFile();
 
                 // this.panel.fileLabel.string = event.getDownloadedFiles() + ' / ' + event.getTotalFiles();
                 var count=Math.ceil((event.getDownloadedBytes()/event.getTotalBytes())*100);
                 var counts=count>100?100:count;
-                this.panel.byteLabel.string = counts+'%';
+                this.byteLabel.string = counts+'%';
 
                 var msg = event.getMessage();
                 if (msg) {
-                    this.panel.info.string = 'Updated file: ' + msg;
+                    this.info.string = 'Updated file: ' + msg;
                     // cc.log(event.getPercent()/100 + '% : ' + msg);
                 }
                 break;
             case jsb.EventAssetsManager.ERROR_DOWNLOAD_MANIFEST:
             case jsb.EventAssetsManager.ERROR_PARSE_MANIFEST:
-                // this.panel.info.string = 'Fail to download manifest file, hot update skipped.';
-                this.panel.info.string = '下载失败！';
+                // this.info.string = 'Fail to download manifest file, hot update skipped.';
+                this.info.string = '下载失败！';
                 failed = true;
                 break;
             case jsb.EventAssetsManager.ALREADY_UP_TO_DATE:
-                // this.panel.info.string = 'Already up to date with the latest remote version.';
-                this.panel.info.string = '已经最新版本';
+                // this.info.string = 'Already up to date with the latest remote version.';
+                this.info.string = '已经最新版本';
                 failed = true;
                 break;
             case jsb.EventAssetsManager.UPDATE_FINISHED:
-                // this.panel.info.string = 'Update finished. ' + event.getMessage();
-                this.panel.info.string = '更新完成，正在重启游戏！';
+                // this.info.string = 'Update finished. ' + event.getMessage();
+                this.info.string = '更新完成，正在重启游戏！';
                 needRestart = true;
                 break;
             case jsb.EventAssetsManager.UPDATE_FAILED:
-                // this.panel.info.string = 'Update failed. ' + event.getMessage();
-                this.panel.info.string = '更新失败';
-                this.panel.retryBtn.active = true;
+                // this.info.string = 'Update failed. ' + event.getMessage();
+                this.info.string = '更新失败';
+                this.retryBtn.active = true;
                 this._updating = false;
                 this._canRetry = true;
                 break;
             case jsb.EventAssetsManager.ERROR_UPDATING:
-                // this.panel.info.string = 'Asset update error: ' + event.getAssetId() + ', ' + event.getMessage();
-                this.panel.info.string = '资源加载失败';
+                // this.info.string = 'Asset update error: ' + event.getAssetId() + ', ' + event.getMessage();
+                this.info.string = '资源加载失败';
                 break;
             case jsb.EventAssetsManager.ERROR_DECOMPRESS:
-                // this.panel.info.string = event.getMessage();
+                // this.info.string = event.getMessage();
                 break;
             default:
                 break;
@@ -244,32 +248,32 @@ cc.Class({
         if (this._am.getState() === jsb.AssetsManager.State.UNINITED) {
             var manifest = new jsb.Manifest(customManifestStr, this._storagePath);
             this._am.loadLocalManifest(manifest, this._storagePath);
-            this.panel.info.string = 'Using custom manifest';
+            this.info.string = 'Using custom manifest';
         }
     },
     
     retry: function () {
         if (!this._updating && this._canRetry) {
-            this.panel.retryBtn.active = false;
+            this.retryBtn.active = false;
             this._canRetry = false;
             
-            this.panel.info.string = 'Retry failed Assets...';
+            this.info.string = 'Retry failed Assets...';
             this._am.downloadFailedAssets();
         }
     },
     /*检查更新*/
     checkUpdate: function () {
         if (this._updating) {
-            // this.panel.info.string = 'Checking or updating ...';
-            this.panel.info.string = '检查更新中...';
+            // this.info.string = 'Checking or updating ...';
+            this.info.string = '检查更新中...';
             return;
         }
         if (this._am.getState() === jsb.AssetsManager.State.UNINITED) {
             this._am.loadLocalManifest(this.manifestUrl.nativeUrl);
         }
         if (!this._am.getLocalManifest() || !this._am.getLocalManifest().isLoaded()) {
-            // this.panel.info.string = 'Failed to load local manifest ...';
-            this.panel.info.string = '加载本地manifest失败 ...';
+            // this.info.string = 'Failed to load local manifest ...';
+            this.info.string = '加载本地manifest失败 ...';
             return;
         }
         this._checkListener = new jsb.EventListenerAssetsManager(this._am, this.checkCb.bind(this));
@@ -290,7 +294,6 @@ cc.Class({
 
             this._failCount = 0;
             this._am.update();
-            this.panel.updateBtn.active = false;
             this._updating = true;
         }
     },

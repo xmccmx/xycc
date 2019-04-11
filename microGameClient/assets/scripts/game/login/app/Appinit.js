@@ -104,8 +104,6 @@ cc.Class({
 
 
 
-            cc.weijifen.localStorage = require('IOUtils');
-
             // let h5CallCocos = require('h5CallCocos');
             // cc.weijifen.match = new h5CallCocos();
 
