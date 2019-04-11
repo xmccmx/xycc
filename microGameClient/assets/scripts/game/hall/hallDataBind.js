@@ -286,6 +286,7 @@ cc.Class({
     },
     roomSuccess: function (result, object) {
         cc.game.on(cc.game.EVENT_SHOW, function () {
+            if (!cc.sys.isNative) return;
             //获取分享进入的时候，是否分享的游戏房间
             // var res = jsb.reflection.callStaticMethod("org/cocos2dx/javascript/event/EventManager", "raiseEvent", "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;", "shareParam","");
             var res = jsb.reflection.callStaticMethod(...object.anMethodParam().shareParam, "");

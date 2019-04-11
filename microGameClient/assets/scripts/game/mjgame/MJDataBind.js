@@ -466,7 +466,7 @@ cc.Class({
                 cc.sys.localStorage.removeItem('guo');
                 cc.sys.localStorage.setItem('ting', 'true');
                 cc.sys.localStorage.setItem('alting', 'true');
-                cc.weijifen.gameStartInit.initcardwidth(self,true);
+                cc.weijifen.gameStartInit.initcardwidth(self, true);
                 self.getSelf().tingAction(self);
                 if (self.tings) {
                     let cards = self._handCardNode['current'];
@@ -562,7 +562,7 @@ cc.Class({
             // cc.weijifen.offline(2);
             // 主监测游戏进入后台
             // 监听到该事件说明玩家已经离线，此时status为1
-            cc.game.on(cc.game.EVENT_HIDE, function () {
+            var hide = function () {
                 console.log('监听到hide事件，游戏进入后台运行！');
                 let param = {
                     userId: cc.weijifen.user.id,
@@ -571,8 +571,9 @@ cc.Class({
                     status: 1
                 };
                 socket.emit("sayOnSound", JSON.stringify(param));
-            });
-            cc.game.on(cc.game.EVENT_SHOW, function () {
+                cc.game.off(cc.game.EVENT_HIDE, hide)
+            }
+            var show = function () {
                 console.log('监听到SHOW事件，游戏进入后台运行！');
                 cc.sys.localStorage.setItem("isHide", 0);
                 let param = {
@@ -583,9 +584,12 @@ cc.Class({
                 };
                 socket.emit("sayOnSound", JSON.stringify(param));
                 if (cc.weijifen.room) {
+                    cc.game.off(cc.game.EVENT_SHOW, show)
                     cc.weijifen.wjf.scene('majiang');
                 }
-            });
+            }
+            cc.game.on(cc.game.EVENT_HIDE, hide);
+            cc.game.on(cc.game.EVENT_SHOW, show);
 
             self.node.on("touchend", function () {
                 if (Number(cc.sys.localStorage.getItem("isHide")) == 1) {
@@ -651,7 +655,7 @@ cc.Class({
         }
     },
 
-    tingAction: function (context,dd) {//点击听牌btn时，对手牌的操作
+    tingAction: function (context, dd) {//点击听牌btn时，对手牌的操作
         let cards = context._handCardNode['current'];
         for (let i = 0; i < cards.childrenCount; i++) {
             let handCards = cards.children[i].getComponent("HandCard");
@@ -1261,40 +1265,22 @@ cc.Class({
             // player  头像框父节点;
             // userId  状态发生改变的用户id
             // status  用户状态
-            function playerId(player, userId, status) {
-                let id;
-                if (player.children[1]) {
-                    id = player.children[1].getChildByName('id').getComponent(cc.Label).string;
-                    if (status == 0 && id == userId) {
-                        player.children[1].getChildByName('off_line_sign').active = false;
-                        player.children[1].getChildByName('callingSign').active = false;
-                        player.children[1].color = new cc.Color(255, 255, 255);
-                    } else if (status == 1 && id == userId) {
-                        player.children[1].getChildByName('off_line_sign').active = true;
-                        player.children[1].getChildByName('callingSign').active = false;
-                        player.children[1].color = new cc.Color(100, 100, 100);
-                    } else if (status == 2 && id == userId) {
-                        player.children[1].getChildByName('off_line_sign').active = false;
-                        player.children[1].getChildByName('callingSign').active = true;
-                        player.children[1].color = new cc.Color(100, 100, 100);
-                    }
-                }
-            }
             function stateFn(userId, status) {
-                if (num == 2) {
-                    playerId(obj._playersNode.children[0], userId, status);
-                    return
-                }
-                if (num == 3) {
-                    playerId(obj._playersNode.children[1], userId, status);
-                    playerId(obj._playersNode.children[0], userId, status);
-                    return
-                }
-                if (num == 4) {
-                    playerId(obj._playersNode.children[1], userId, status);
-                    playerId(obj._playersNode.children[0], userId, status);
-                    playerId(obj._playersNode.children[2], userId, status);
-                    return
+                var c = cc.find('Canvas').getComponent('MJDataBind');
+                var src = cc.weijifen.gameStartInit.player(userId, c);
+                if (!src) return;
+                if (status == 0) {
+                    src.unLineImg.active = false;
+                    src.calling.active = false;
+                    src.headImg.color = new cc.Color(255, 255, 255);
+                } else if (status == 1) {
+                    src.unLineImg.active = true;
+                    src.calling.active = false;
+                    src.headImg.color = new cc.Color(100, 100, 100);
+                } else if (status == 2) {
+                    src.unLineImg.active = false;
+                    src.calling.active = true;
+                    src.headImg.color = new cc.Color(100, 100, 100);
                 }
             }
             let num = cc.weijifen.playerNum;
@@ -1305,24 +1291,24 @@ cc.Class({
         }
     },
     headImageClick: function (event) {
-        var headImgPositionX = event.target.x;
-        var headImgPositiony = event.target.y;
+        var X = event.target.x;
+        var Y = event.target.y;
         if (event.target.name == "head_top") {
-            headImgPositionX = headImgPositionX - 182;
-            headImgPositiony = headImgPositiony - 55;
+            X = X - 182;
+            Y = Y - 55;
         } else if (event.target.name == "head_left") {
-            headImgPositionX = headImgPositionX + 190;
-            headImgPositiony = headImgPositiony - 50;
+            X = X + 190;
+            Y = Y - 50;
         } else if (event.target.name == "head_right") {
-            headImgPositionX = headImgPositionX - 171;
-            headImgPositiony = headImgPositiony - 52;
+            X = X - 171;
+            Y = Y - 52;
         }
         if (event.target.children[1]) {
             cc.weijifen.emjioUserId = event.target.children[1].getChildByName('id').getComponent(cc.Label).string;
         }
         //弹出表情框    移动位置到头像位置
         var emoji = cc.find("Canvas/emoji");
-        emoji.setPosition(headImgPositionX, headImgPositiony);
+        emoji.setPosition(X, Y);
         if (emoji.active) {
             emoji.active = false;
         } else {

@@ -129,6 +129,7 @@ cc.Class({
         let object = this;
         let url = cc.sys.localStorage.getItem('appUrl');
         cc.find('Canvas/downLoadApp').active = false;
+        if (!cc.sys.isNative) return;
         // var res = jsb.reflection.callStaticMethod("org/cocos2dx/javascript/event/EventManager", "raiseEvent", "(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;", "openView",url);
         var res = jsb.reflection.callStaticMethod(...object.anMethodParam().openView, url);
     },

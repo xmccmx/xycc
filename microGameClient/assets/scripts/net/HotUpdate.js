@@ -1,4 +1,4 @@
-var UpdatePanel = require('./UpdatePanel');
+var UpdatePanel ;
 
 // Custom manifest removed the following assets:
 // 1. res/raw-assets/textures/UI/chat/button_orange.png

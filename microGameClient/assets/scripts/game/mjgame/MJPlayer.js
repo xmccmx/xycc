@@ -29,6 +29,7 @@ cc.Class({
         // },
         headImg: cc.Node,
         unLineImg: cc.Node,
+        calling:cc.Node,
         nameLabel: cc.Label,
         scoreLabel: cc.Label,
         zhuangNode: cc.Node,
