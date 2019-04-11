@@ -170,7 +170,6 @@ cc.Class({
         cc.weijifen.matchOver = true;
         cc.weijifen.room = null;
         let self = cc.find('Canvas/bg').getComponent('settingClick');
-        cc.sys.localStorage.removeItem('waitting');
         let time;
         if (cc.sys.localStorage.getItem('unOver') == 'true') {
             time = 0;

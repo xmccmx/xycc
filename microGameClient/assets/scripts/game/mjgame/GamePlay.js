@@ -339,17 +339,7 @@ cc.Class({
         }
         gameStartInitNode._cardsCount.string = data.deskcards;
         if (data.power) {
-            // 摸宝牌
-            var par = cc.find('Canvas/cards/otherCards/cardTip/baoCard');//宝牌父节点
-            // var laiziFM = cc.instantiate(gameStartInitNode.deskcard_one);---------------
-            // if (data.powerCard && data.powerCard.length > 0) {
-            //     cc.weijifen.baopai = data.powerCard;
-            // }
-            // laiziFM.parent = par;
-            // if (par.children.length > 1) {
-            //     if (cc.weijifen.GameBase.gameModel == 'wz') return;
-            //     par.children[1].destroy();
-            // }
+            console.log('摸宝');            
         }
     },
     initDealHandCards: function (context, data) {

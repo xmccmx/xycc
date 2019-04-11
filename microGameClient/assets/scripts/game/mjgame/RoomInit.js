@@ -83,9 +83,6 @@ cc.Class({
     joinroom_event: function (data, context) {
         let roomInit = cc.weijifen.roomInit;
         cc.weijifen.dataOps = data.playWayOp;//房间玩法
-        if (cc.sys.localStorage.getItem('waitting') != 1) {
-            cc.sys.localStorage.setItem('waitting', 'true');// (在游戏未开始时只有房主可以解散房间) 玩家等待中
-        }
         //如果是2人的模式  就只加自己和对家
         // 反作弊提示
         if (data.msg) {

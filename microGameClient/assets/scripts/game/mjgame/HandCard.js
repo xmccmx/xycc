@@ -46,6 +46,8 @@ cc.Class({
     },
     mouseUp: function (event) {
         //获取当前节点在canvas对应的坐标位置
+        var par = event.target.parent;
+        if (!par.getComponent(cc.Layout).enabled) par.getComponent(cc.Layout).enabled = true;
         var newVec2 = event.target.convertToNodeSpaceAR(cc.v2(667, 375));
         cc.weijifen.cardPostion = {
             x: -newVec2.x,
@@ -61,6 +63,8 @@ cc.Class({
         cc.sys.localStorage.removeItem('delta');
     },
     mouseMove: function (event) {
+        var par = event.target.parent;
+        if (par.getComponent(cc.Layout).enabled) par.getComponent(cc.Layout).enabled = false;
         var delta = event.touch.getDelta();
         event.target.x += delta.x;
         event.target.y += delta.y;
