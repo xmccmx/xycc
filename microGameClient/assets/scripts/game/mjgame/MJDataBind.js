@@ -562,35 +562,6 @@ cc.Class({
             // cc.weijifen.offline(2);
             // 主监测游戏进入后台
             // 监听到该事件说明玩家已经离线，此时status为1
-            var hide = function () {
-                console.log('监听到hide事件，游戏进入后台运行！');
-                let param = {
-                    userId: cc.weijifen.user.id,
-                    // userId: '37a538a553bf4e88820893274669992f',
-                    type: 4,
-                    status: 1
-                };
-                socket.emit("sayOnSound", JSON.stringify(param));
-                cc.game.off(cc.game.EVENT_HIDE, hide)
-            }
-            var show = function () {
-                console.log('监听到SHOW事件，游戏进入后台运行！');
-                cc.sys.localStorage.setItem("isHide", 0);
-                let param = {
-                    userId: cc.weijifen.user.id,
-                    // userId: '37a538a553bf4e88820893274669992f',
-                    type: 4,
-                    status: 0
-                };
-                socket.emit("sayOnSound", JSON.stringify(param));
-                if (cc.weijifen.room) {
-                    cc.game.off(cc.game.EVENT_SHOW, show)
-                    cc.weijifen.wjf.scene('majiang');
-                }
-            }
-            cc.game.on(cc.game.EVENT_HIDE, hide);
-            cc.game.on(cc.game.EVENT_SHOW, show);
-
             self.node.on("touchend", function () {
                 if (Number(cc.sys.localStorage.getItem("isHide")) == 1) {
                     cc.sys.localStorage.setItem("isHide", 0);
