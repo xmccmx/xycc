@@ -28,6 +28,7 @@ cc.Class({
         //     }
         // },
         atlas: cc.SpriteAtlas,//这个图集，在不同方向上的deskcard预制体上挂的不一样
+        backatlas:cc.SpriteAtlas,//背面
         count: cc.Label,//蛋牌头顶的label
         X: cc.Node,
     },
@@ -75,19 +76,21 @@ cc.Class({
         let types;
         let sprites = this.node.children[0].getComponent(cc.Sprite);
         if (this.back == true) {
-            var name = '';
+            var name = '',altass=this.atlas;
             if (this.fangwei == 'left') {//这几个name在altas中和以前不同，需要修改
                 name = 'e_mj_b_left';
+                altass=this.backatlas;
             } else if (this.fangwei == 'top') {
-                name = 'e_mj_b_bottom';
-                this.node.height = 63;
+                name = 'e_mj_b_up';
+                this.node.height = 65;
             } else if (fangwei == 'right') {
                 name = 'e_mj_b_right';
+                altass=this.backatlas;
             } else {
                 name = 'e_mj_b_up';
                 this.node.height = 90;
             }
-            sprites.spriteFrame = this.atlas.getSpriteFrame(name);
+            sprites.spriteFrame = altass.getSpriteFrame(name);
             return;
         }
         if (fangwei != 'Z') {

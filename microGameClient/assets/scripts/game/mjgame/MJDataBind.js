@@ -784,6 +784,7 @@ cc.Class({
      在socket建立连接后初始化房间信息
      */
     playerIsReady: function (self) {
+        if (cc.director.getScene().name == 'gameMain') return;
         cc.weijifen.playercount = 0;
         if (cc.weijifen.browserType == "wechat") {
             self.wxButton.node.active = true;

@@ -121,7 +121,7 @@ cc.Class({
             playerscript.init(data, tablepos);
             context.playersarray.push(player);
             //这里是用来判定自己重连的时候 如果已经准备了 则准备按钮消失
-            if (data.status == 'READY' && !cc.weijifen.banker) {
+            if (data.status == 'READY' &&context.playercards.length == 0) {//接到这个，说明点了继续或者准备、刷新、重进   
                 roomInit.readyHandle(tablepos, context, data);
             }
         } else {
@@ -161,7 +161,7 @@ cc.Class({
                 var headimg = src.headImg;
                 if (data.id == src.id.string) {
                     if (data.status == 'READY') {//在发牌之后不应该再显示ok手势
-                        if (!cc.weijifen.banker || context.playercards.length == 0) {
+                        if (context.playercards.length == 0||cc.find('Canvas/summary')) {//没发牌过着结算时间可以准备
                             let ok = cc.find('Canvas/players/ok_' + tablepos + '');
                             if (ok) ok.active = true;
                         }

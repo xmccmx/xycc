@@ -161,7 +161,6 @@ cc.Class({
             //放在全局变量
             object.reset(data , result);
             //预加载场景
-            console.log('ok');
             object.scene("gameMain") ;
         }
     },

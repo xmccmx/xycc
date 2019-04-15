@@ -110,7 +110,7 @@ cc.Class({
             cc.weijifen.playerNum = data.players.length;
         }
         cc.weijifen.banker = data.players[0].id;
-        context.creatorid=data.players[0].id;//创建房间玩家的id
+        context.creatorid = data.players[0].id;//创建房间玩家的id
         var self = cc.weijifen.gameStartInit;
         if (cc.weijifen.state == 'init' || cc.weijifen.state == 'ready') {
             self.collect(context);    //先回收资源，然后再初始化
@@ -396,6 +396,7 @@ cc.Class({
         for (var i = 0; i < data.players.length; i++) {
             if (data.players[i].playuser != cc.weijifen.user.id) {
                 var mjplayer = self.player(data.players[i].playuser, context);
+                context._handCardNode[mjplayer.tablepos].removeAllChildren();//每次渲染手牌时先将原有的清除
                 self.initPlayerHandCards(mjplayer.tablepos, context, data.players[i].deskcards, data.players[i].history);
             }
         }
@@ -468,7 +469,7 @@ cc.Class({
                 cc.sys.localStorage.setItem('alting', 'true');
                 cc.sys.localStorage.setItem('altings', 'true');
                 cc.sys.localStorage.setItem('take', 'true')
-                context.tingAction(context,true);
+                context.tingAction(context, true);
             }
             //打开当前回合出牌的方位大灯
             if (data.touchPlay) {
@@ -493,6 +494,7 @@ cc.Class({
                 //其他玩家的打出去的牌    
                 if (data.players[i].played) {
                     var deskcardss = data.players[i].played;
+                    cc.find('Canvas/cards/deskCards/' + player.tablepos).removeAllChildren();//第一次渲染玩家deskcard时先清空原有的数据
                     for (let j = 0; j < deskcardss.length; j++) {
                         self.initDeskCards(deskcardss[j], player.tablepos, context)
                     }
@@ -580,7 +582,7 @@ cc.Class({
     initPlayerHandCards: function (fangwei, context, cardsnum, cardarr) {
         if (fangwei == 'current') return;
         var self = cc.find('Canvas').getComponent('GameStartInit');
-        let parent = context._allHandCardNode.getChildByName(fangwei).children[1];
+        let parent = context._handCardNode[fangwei];
         let cardarray = context.rightcards;
         let prefab, replay = cc.sys.localStorage.getItem('replayData');
         replay != null ? prefab = self.deskcard_right : prefab = self.handcard_right;
@@ -637,7 +639,7 @@ cc.Class({
         * 此为恢复麻将状态  1、宽度 2、缩回来 3、颜色 
         * ting  true 为听牌时的状态
         */
-    initcardwidth: function (context,ting) {
+    initcardwidth: function (context, ting) {
         let length = context._handCardNode['current'];
         for (let i = 0; i < length.childrenCount; i++) {
             let target = length.children[i];
